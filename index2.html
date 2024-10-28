@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="main-container">
+        <div class="menu-container">
+            <h2>List Menu</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Menu</th>
+                        <th>Harga</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Ayam Goreng</td>
+                        <td>25000</td>
+                        <td><button class="button-order">order</button></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Bebek Goreng</td>
+                        <td>35000</td>
+                        <td><button class="button-order">order</button></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Nila Goreng</td>
+                        <td>27000</td>
+                        <td><button class="button-order">order</button></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Teh Botol</td>
+                        <td>7000</td>
+                        <td><button class="button-order">order</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pesanan-container">
+            <h2>Pesananku</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Menu</th>
+                        <th>Harga</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                </tbody>
+                <!-- Total Row -->
+                <tfoot>
+                    <tr>
+                        <td colspan="2"><strong>Total</strong></td>
+                        <td id="total-harga">0</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var nomor = 1;
+            var totalHarga = 0;
+
+            $('.button-order').click(function() {
+                // Mendapatkan lokasi atau tr yg terdekat dari tombol yg di klik
+                var baris = $(this).closest('tr');
+
+                // Mendapatkan harga dari kolom harga di tabel menu
+                var harga = parseInt(baris.find('td:nth-child(3)').text());
+
+                // Menambahkan harga ke total
+                totalHarga += harga;
+
+                // Mengcopy atau mengcloning baris lalu menyisipkannya ke tbody dari table pesanan 
+                baris.clone().appendTo('.pesanan-container table tbody');
+
+                // Menyembunyikan colom dari tombol yang di clone di pesanan kontainer
+                $('.pesanan-container table tbody tr td .button-order').parent().hide();
+
+                // Menyembunyikan baris yang dipilih
+                baris.hide();
+
+                // Mengubah no urut yang diperoleh dari menu-container dengan no yang ada di var "nomor"
+                $('.pesanan-container table tbody tr:last-child()')
+                    .find('td:first-child')
+                    .text(nomor);
+
+                nomor++;
+
+                // Update tampilan total harga
+                $('#total-harga').text(totalHarga);
+
+            });
+        });
+    </script>
+</body>
+</html>
